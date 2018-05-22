@@ -2,6 +2,82 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
+  - swift
+  - objective_c
+
+toc_footers:
+  - <a href='http://pager.com'>Sign Up for a Developer Key</a>
+
+search: true
+---
+
+# Introduction
+
+# Installation
+## CocoaPods
+## Framework
+
+# Setup
+
+## Config
+
+```objective_c
+#import <PagerKit/PagerKit.h>
+
+PKITClientConfig *config = [[PKITClientConfig alloc] init];
+config.appKey = "<YOUR_CLIENT_ID>"
+config.userToken = "<USER_TOKEN>"
+```
+
+```swift
+import PagerKit
+
+let config = PKITClientConfig()
+config.appKey = "<YOUR_CLIENT_ID>"
+config.userToken = "<USER_TOKEN>"
+```
+
+## Theme
+
+```objective_c
+#import <PagerKit/PagerKit.h>
+
+PKITTheme *theme = [[PKITTheme alloc] init];
+theme.primaryColor = UIColor.redColor;
+config.theme = theme;
+```
+
+```swift
+import PagerKit
+
+let theme = PKITTheme()
+theme.primaryColor = UIColor.red
+config.theme = theme
+```
+
+## Notifications
+
+# Session
+
+# Encounter Context
+## Fetch
+## Create
+
+# Provided Services
+
+# Controllers
+
+## Encounter
+## Payments
+## Insurances
+## Promotions
+## Appointments
+## Encounter History
+
+<!-- ---
+title: API Reference
+
+language_tabs: # must be one of https://git.io/vQNgJ
   - shell
   - ruby
   - python
@@ -236,4 +312,4 @@ This endpoint deletes a specific kitten.
 Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to delete
-
+ -->

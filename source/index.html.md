@@ -14,7 +14,32 @@ search: true
 # Introduction
 
 # Installation
-## CocoaPods
+
+Welcome to Pager's iOS SDK. This library will help you use our telemedicine systems with ease.
+
+**The Pager iOS SDK requires Xcode 9+ and a Base SDK of iOS 10+**. It permits a Deployment Target of iOS 10.0 or higher.
+
+We recommend using either [CocoaPods](https://github.com/CocoaPods/CocoaPods) to integrate the Pager SDK with your project.
+
+### CocoaPods
+Add the dependency into your podfile
+
+```ruby
+source 'git@github.com:pagerinc/ios-specs-public.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+inhibit_all_warnings!
+
+platform :ios, '10.0'
+
+target 'YourTarget' do
+  use_frameworks!
+
+  pod 'PagerKit'
+end
+
+```
+
 ## Framework
 
 # Setup

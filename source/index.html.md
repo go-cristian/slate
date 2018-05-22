@@ -14,12 +14,51 @@ search: true
 # Introduction
 
 # Installation
-## CocoaPods
+
+Welcome to Pager's iOS SDK. This library will help you use our telemedicine systems with ease.
+
+**The Pager iOS SDK requires Xcode 9+ and a Base SDK of iOS 10+**. It permits a Deployment Target of iOS 10.0 or higher.
+
+We recommend using either [CocoaPods](https://github.com/CocoaPods/CocoaPods) to integrate the Pager SDK with your project.
+
+### CocoaPods
+Add the dependency into your podfile
+
+```ruby
+source 'git@github.com:pagerinc/ios-specs-public.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+inhibit_all_warnings!
+
+platform :ios, '10.0'
+
+target 'YourTarget' do
+  use_frameworks!
+
+  pod 'PagerKit'
+end
+
+```
+
 ## Framework
+Download the PagerKit.framework
+Add it to embedded binaries and linked frameworks and libraries in the general tab of your app target.
+
+![linked framework](/images/linked_frameworks.png)
+
+Download Twilio Library and add it to the embedded binaries and linked frameworks in the general tab of your app target or install it via cocoapods `pod 'TwilioVideo'`
+
+<aside class="notice">
+The Consumer iOS SDK is built as a universal binary in order to support all potential architectures but before submitting to the App Store, you will need to remove any architectures that are not supported by the App Store. You can resolve this issue by doing either of the following:
+Add a build phase script that strips the unsupported architectures (x86_64, i386) from the framework.
+Use the shell script <code>trim.sh</code> that’s included in the SDK software distribution package along with the instructions documented under the App Store Deployment section of the Consumer iOS SDK guide to remove the unsupported architectures.
+</aside>
+
 
 # Setup
 
 ## Config
+
 
 ```objective_c
 #import <PagerKit/PagerKit.h>

@@ -211,7 +211,7 @@ func didInvalidateSession() {
 
 It also contains an array of <code> PKITProvidedService </code> that are used to be able to create an PKITEncounterContext.
 
-## PKITProvidedService
+## Provided Service
 
 A PKITProvidedService represents the intent of an _Encounter_. Normally you should display to the user a list of those services so they can select that intent.
 

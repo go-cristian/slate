@@ -53,7 +53,7 @@ Download Twilio Library and add it to the embedded binaries and linked framework
 <aside class="notice">
 The Consumer iOS SDK is built as a universal binary in order to support all potential architectures but before submitting to the App Store, you will need to remove any architectures that are not supported by the App Store. You can resolve this issue by doing either of the following:
 Add a build phase script that strips the unsupported architectures (x86_64, i386) from the framework.
-Use the shell script `trim.sh` that’s included in the SDK software distribution package along with the instructions documented under the App Store Deployment section of the Consumer iOS SDK guide to remove the unsupported architectures.
+Use the shell script <code>trim.sh</code> that’s included in the SDK software distribution package along with the instructions documented under the App Store Deployment section of the Consumer iOS SDK guide to remove the unsupported architectures.
 </aside>
 
 # Setup
@@ -82,11 +82,12 @@ config.userToken = "<USER_TOKEN>"
 
 ## Create a theme
 
-If you want PagerKit to match the style of your application, you can create a `PKITTheme` when you init the sdk.
+If you want PagerKit to match the style of your application, you can create a <code>PKITTheme</code> when you init the sdk.
 
 primaryColor is used to main buttons and some titles. It is the predominant color of the actions.
 
 ![linked framework](/images/theme1.png)
+
 
 ```objective_c
 PKITTheme *theme = [[PKITTheme alloc] init];
@@ -104,7 +105,7 @@ config.theme = theme
 
 Before you can start using the sdk features you need to initialice it.
 
-You need to create a `PKITClientConfig` object and pass it as a parameter.
+You need to create a <code> PKITClientConfig </code> object and pass it as a parameter.
 
 ```objective_c
 [PKITClient setupWithConfiguration:config completion:^(PKITConsumerSession *session, NSError *error) {
@@ -123,16 +124,18 @@ PKITClient.setup(withConfiguration: config) { [unowned self] (session, error) in
   }
 }
 ```
-On success this method will return a PKITConsumerSession that you need to retain since you need to use it for the rest of the calls to the `PKITClient`.
+On success this method will return a PKITConsumerSession that you need to retain since you need to use it for the rest of the calls to the <code> PKITClient </code>
 
 Also you need to set a delegate to that session so you can respond to the different messages that will be explained in the Session section.
 
 
 ## Notifications
 
-If you want your application to be able to receive notifications you need to contact the pager team `ios@pager.com` and in the app you need to set it up in the init of the sdk.
+If you want your application to be able to receive notifications you need to contact the pager team <code> ios@pager.com </code> and in the app you need to set it up in the init of the sdk.
 
 ```objective_c
+#import <PagerKit/PagerKit.h>
+
 PKITClientConfig *config = [[PKITClientConfig alloc] init];
 config.pushNotificationToken = "<PUSH_TOKEN>"
 config.appKey = "<YOUR_CLIENT_ID>"
@@ -140,13 +143,16 @@ config.userToken = "<USER_TOKEN>"
 ```
 
 ```swift
+import PagerKit
+
 let config = PKITClientConfig()
 config.pushNotificationToken = "<PUSH_TOKEN>"
 config.appKey = "<YOUR_CLIENT_ID>"
 config.userToken = "<USER_TOKEN>"
+
 ```
 
-If you want to set up the token later you can call the `updatePushNotificationToken` method of the `PKITClient` object.
+If you want to set up the token later you can call the <code> updatePushNotificationToken </code> method of the <code> PKITClient </code> object.
 
 ```objective_c
 [PKITClient updatePushNotificationToken:<TOKEN>
@@ -163,53 +169,50 @@ PKITClient.updatePushNotificationToken("token", for: "session") {
 }
 ```
 
+
 # Session
 
 The PKITConsumerSession is the object that represents the current user session.
 
 You should not create instances of this object manually, it will only be returned after the SDK is initialiced.
 
-```
-#import <Foundation/Foundation.h>
-#import "PKITProvidedService.h"
-#import "PKITEncounterAddress.h"
-#import "PKITEncounterContext.h"
-
-@class PKITConsumerSession;
-
-@protocol PKITConsumerSessionDelegate <NSObject>
-- (void)didInvalidateSession;
-@end
-
-@interface PKITConsumerSession : NSObject
-
-- (instancetype)init NS_UNAVAILABLE;
-
-@property (nonatomic, readonly) NSArray<PKITProvidedService*> *providedServices;
-@property (nonatomic, weak) id<PKITConsumerSessionDelegate> delegate;
-
-@end
-```
-
 You will need to add a delegate to this object since the sdk will notify is the session becomes invalid letting you know that you need to reauthenticate the sdk.
+
+
+```objective_c
+[PKITClient setupWithConfiguration:config completion:^(PKITConsumerSession *session, NSError *error) {
+  if (!error) {
+    session.delegate = self;
+    self.consumerSession = session;
+  }
+}];
+
+- (void)didInvalidateSession {
+    self.consumerSession = nil;
+    //Handle reauthentication of the sdk here.
+}
+```
+
+```swift
+PKITClient.setup(withConfiguration: config) { [unowned self] (session, error) in
+  if let session = session, error == nil {
+    session?.delegate = self
+    self.consumerSession = session
+  }
+}
+
+func didInvalidateSession() {
+    consumerSession = nil
+    //Handle reauthentication of the sdk here.
+}
+
+```
 
 It also contains an array of <code> PKITProvidedService </code> that are used to be able to create an PKITEncounterContext.
 
 ## PKITProvidedService
 
 A PKITProvidedService represents the intent of an _Encounter_. Normally you should display to the user a list of those services so they can select that intent.
-
-```
-@interface PKITProvidedService : NSObject
-
-@property (nonatomic, readonly, nullable) NSString *identifier;
-@property (nonatomic, readonly, nullable) NSString *title;
-@property (nonatomic, readonly, nullable) NSString *subtitle;
-@property (nonatomic, readonly, nullable) NSDictionary *parameters;
-@property (nonatomic, readonly, nullable) NSURL *imageURL;
-
-@end
-```
 
 ![linked framework](/images/home.png)
 
@@ -286,76 +289,11 @@ PKITClient.createEncounter(for: consumerSession, triageContext: nil, address: ad
 # Controllers
 
 ## Encounter
-
-```objective_c
-PKITNavigationController *controller = [PKITClient encounterControllerForConsumerSession:consumerSession encounterContext:context];
-[self presentViewController:controller animated:YES completion:nil];
-```
-
-```swift
-let viewController = PKITClient.encounterController(for: consumerSession, encounterContext: context)
-self.present(viewController, animated: true)
-```
-
 ## Payments
-
-```objective_c
-PKITNavigationController *controller = [PKITClient paymentsViewControllerForConsumerSession:consumerSession encounterContext:context];
-[self presentViewController:controller animated:YES completion:nil];
-```
-
-```swift
-let viewController = PKITClient.paymentsViewController(for: consumerSession, encounterContext: context)
-self.present(viewController, animated: true)
-```
-
 ## Insurances
-
-```objective_c
-PKITNavigationController *controller = [PKITClient insurancesViewControllerForConsumerSession:consumerSession encounterContext:context];
-[self presentViewController:controller animated:YES completion:nil];
-```
-
-```swift
-let viewController = PKITClient.insurancesViewController(for: consumerSession, encounterContext: context)
-self.present(viewController, animated: true)
-```
-
 ## Promotions
-
-```objective_c
-PKITNavigationController *controller = [PKITClient promotionsViewControllerForConsumerSession:consumerSession encounterContext:context];
-[self presentViewController:controller animated:YES completion:nil];
-```
-
-```swift
-let viewController = PKITClient.promotionsViewController(for: consumerSession, encounterContext: context)
-self.present(viewController, animated: true)
-```
-
 ## Appointments
-
-```objective_c
-PKITNavigationController *controller = [PKITClient appointmentsViewControllerForConsumerSession:consumerSession encounterContext:context];
-[self presentViewController:controller animated:YES completion:nil];
-```
-
-```swift
-let viewController = PKITClient.appointmentsViewController(for: consumerSession, encounterContext: context)
-self.present(viewController, animated: true)
-```
-
 ## Encounter History
-
-```objective_c
-PKITNavigationController *controller = [PKITClient encounterHistoryViewControllerForConsumerSession:consumerSession encounterContext:context];
-[self presentViewController:controller animated:YES completion:nil];
-```
-
-```swift
-let viewController = PKITClient.encounterHistoryViewController(for: consumerSession, encounterContext: context)
-self.present(viewController, animated: true)
-```
 
 <!-- ---
 title: API Reference

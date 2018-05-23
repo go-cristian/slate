@@ -12,12 +12,13 @@ search: true
 ---
 
 # Introduction
+Welcome to Pager's iOS SDK. This library will help you use our telemedicine systems with ease.
 
 # Installation
 
-Welcome to Pager's iOS SDK. This library will help you use our telemedicine systems with ease.
+**The Pager iOS SDK requires Xcode 9+ and a Base SDK of iOS 10+**.
 
-**The Pager iOS SDK requires Xcode 9+ and a Base SDK of iOS 10+**. It permits a Deployment Target of iOS 10.0 or higher.
+It permits a Deployment Target of iOS 10.0 or higher.
 
 We recommend using either [CocoaPods](https://github.com/CocoaPods/CocoaPods) to integrate the Pager SDK with your project.
 
@@ -81,19 +82,30 @@ config.userToken = "<USER_TOKEN>"
 
 ## Create a theme
 
+If you want PagerKit to match the style of your application, you can create a <code>PKITTheme</code> when you init the sdk.
+
+primaryColor is used to main buttons and some titles. It is the predominant color of the actions.
+
+![linked framework](/images/theme1.png)
+
+
 ```objective_c
 PKITTheme *theme = [[PKITTheme alloc] init];
-theme.primaryColor = UIColor.redColor;
+theme.primaryColor = UIColor.orangeColor;
 config.theme = theme;
 ```
 
 ```swift
 let theme = PKITTheme()
-theme.primaryColor = UIColor.red
+theme.primaryColor = UIColor.orange
 config.theme = theme
 ```
 
 ## Initialization
+
+Before you can start using the sdk features you need to initialice it.
+
+You need to create a <code> PKITClientConfig </code> object and pass it as a parameter.
 
 ```objective_c
 [PKITClient setupWithConfiguration:config completion:^(PKITConsumerSession *session, NSError *error) {
@@ -112,8 +124,55 @@ PKITClient.setup(withConfiguration: config) { [unowned self] (session, error) in
   }
 }
 ```
+On success this method will return a PKITConsumerSession that you need to retain since you need to use it for the rest of the calls to the <code> PKITClient </code>
+
+Also you need to set a delegate to that session so you can respond to the different messages that will be explained in the Session section.
+
 
 ## Notifications
+
+If you want your application to be able to receive notifications you need to contact the pager team <code> ios@pager.com </code> and in the app you need to set it up in the init of the sdk.
+
+```objective_c
+#import <PagerKit/PagerKit.h>
+
+PKITClientConfig *config = [[PKITClientConfig alloc] init];
+config.pushNotificationToken = "<PUSH_TOKEN>"
+config.appKey = "<YOUR_CLIENT_ID>"
+config.userToken = "<USER_TOKEN>"
+```
+
+```swift
+import PagerKit
+
+let config = PKITClientConfig()
+config.pushNotificationToken = "<PUSH_TOKEN>"
+config.appKey = "<YOUR_CLIENT_ID>"
+config.userToken = "<USER_TOKEN>"
+
+```
+
+If you want to set up the token later you can call the <code> updatePushNotificationToken </code> method of the <code> PKITClient </code> object.
+
+```objective_c
+[PKITClient updatePushNotificationToken:<TOKEN>
+                     forConsumerSession:<CONSUMER_SESSION>
+                             completion:^(PKITConsumerSession *session, NSError *error) {
+    //Handle error here
+}];
+
+```
+
+```swift
+
+PKITClient.updatePushNotificationToken("token", for: "session") {
+   (consumerSession: PKITConsumerSession, error : Error?) in
+    //Handle error here
+}
+
+
+```
+
 
 # Session
 

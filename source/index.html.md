@@ -176,6 +176,55 @@ PKITClient.updatePushNotificationToken("token", for: "session") {
 
 # Session
 
+The PKITConsumerSession is the object that represents the current user session.
+
+You should not create instances of this object manually, it will only be returned after the SDK is initialiced.
+
+```
+#import <Foundation/Foundation.h>
+#import "PKITProvidedService.h"
+#import "PKITEncounterAddress.h"
+#import "PKITEncounterContext.h"
+
+@class PKITConsumerSession;
+
+@protocol PKITConsumerSessionDelegate <NSObject>
+- (void)didInvalidateSession;
+@end
+
+@interface PKITConsumerSession : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+
+@property (nonatomic, readonly) NSArray<PKITProvidedService*> *providedServices;
+@property (nonatomic, weak) id<PKITConsumerSessionDelegate> delegate;
+
+@end
+```
+
+You will need to add a delegate to this object since the sdk will notify is the session becomes invalid letting you know that you need to reauthenticate the sdk.
+
+It also contains an array of <code> PKITProvidedService </code> that are used to be able to create an PKITEncounterContext.
+
+## PKITProvidedService
+
+A PKITProvidedService represents the intent of an _Encounter_. Normally you should display to the user a list of those services so they can select that intent.
+
+```
+@interface PKITProvidedService : NSObject
+
+@property (nonatomic, readonly, nullable) NSString *identifier;
+@property (nonatomic, readonly, nullable) NSString *title;
+@property (nonatomic, readonly, nullable) NSString *subtitle;
+@property (nonatomic, readonly, nullable) NSDictionary *parameters;
+@property (nonatomic, readonly, nullable) NSURL *imageURL;
+
+@end
+```
+
+![linked framework](/images/home.png)
+
+
 # Encounter Context
 
 ## Fetch
@@ -244,8 +293,6 @@ PKITClient.createEncounter(for: consumerSession, triageContext: nil, address: ad
   }
 })
 ```
-
-# Provided Services
 
 # Controllers
 

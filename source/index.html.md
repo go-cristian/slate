@@ -191,7 +191,29 @@ PKITClient.createEncounter(for: consumerSession, triageContext: nil, address: ad
 # Controllers
 
 ## Encounter
+
+```objective_c
+PKITNavigationController *controller = [PKITClient encounterControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.encounterController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Payments
+
+```objective_c
+PKITNavigationController *controller = [PKITClient paymentsViewControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.paymentsViewController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Insurances
 ## Promotions
 ## Appointments

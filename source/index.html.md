@@ -216,6 +216,44 @@ A PKITProvidedService represents the intent of an _Encounter_. Normally you shou
 
 # Encounter Context
 
+The `PKITEncounterContext` contains information about the active _encounter_
+and notifies status changes during its life. It also serves to provide context when creating an encounter controller.
+
+## Context updates
+
+> The interface below can be used to subscribe to updates:
+
+```
+@protocol PKITEncounterContextDelegate <NSObject>
+@optional
+- (void)pkitEncounterContextDidFinish:(PKITEncounterContext *)context;
+- (void)pkitEncounterContextDidUpdate:(PKITEncounterContext *)context;
+@end
+```
+
+> It's convenient to dismiss chat controller once the encounter has finished:
+
+```
+@interface ExampleViewController () <PKITEncounterContextDelegate>
+@property (nonatomic, strong) PKITEncounterContext *context;
+@end
+
+- (void)init {
+  if (self = [super init]) {
+    [_encounterContext addListener:self];
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [self.encounterContext removeListener:self];
+}
+
+- (void)pkitEncounterContextDidFinish:(PKITEncounterContext *)context {
+    [self.currentViewController dismissViewControllerAnimated:YES completion:nil];
+}
+```
+
 ## Fetch
 
 ```objective_c

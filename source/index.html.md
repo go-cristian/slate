@@ -12,12 +12,13 @@ search: true
 ---
 
 # Introduction
+Welcome to Pager's iOS SDK. This library will help you use our telemedicine systems with ease.
 
 # Installation
 
-Welcome to Pager's iOS SDK. This library will help you use our telemedicine systems with ease.
+**The Pager iOS SDK requires Xcode 9+ and a Base SDK of iOS 10+**.
 
-**The Pager iOS SDK requires Xcode 9+ and a Base SDK of iOS 10+**. It permits a Deployment Target of iOS 10.0 or higher.
+It permits a Deployment Target of iOS 10.0 or higher.
 
 We recommend using either [CocoaPods](https://github.com/CocoaPods/CocoaPods) to integrate the Pager SDK with your project.
 
@@ -90,17 +91,21 @@ primaryColor is used to main buttons and some titles. It is the predominant colo
 
 ```objective_c
 PKITTheme *theme = [[PKITTheme alloc] init];
-theme.primaryColor = UIColor.redColor;
+theme.primaryColor = UIColor.orangeColor;
 config.theme = theme;
 ```
 
 ```swift
 let theme = PKITTheme()
-theme.primaryColor = UIColor.red
+theme.primaryColor = UIColor.orange
 config.theme = theme
 ```
 
 ## Initialization
+
+Before you can start using the sdk features you need to initialice it.
+
+You need to create a <code> PKITClientConfig </code> object and pass it as a parameter.
 
 ```objective_c
 [PKITClient setupWithConfiguration:config completion:^(PKITConsumerSession *session, NSError *error) {
@@ -119,6 +124,10 @@ PKITClient.setup(withConfiguration: config) { [unowned self] (session, error) in
   }
 }
 ```
+On success this method will return a PKITConsumerSession that you need to retain since you need to use it for the rest of the calls to the <code> PKITClient </code>
+
+Also you need to set a delegate to that session so you can respond to the different messages that will be explained in the Session section.
+
 
 ## Notifications
 

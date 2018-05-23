@@ -57,7 +57,15 @@ Use the shell script <code>trim.sh</code> that’s included in the SDK software 
 
 # Setup
 
-## Config
+## Create a Config
+
+The first you should do to be able to use PagerKit is to obtain a `client identifier` from Pager, that is used to identify your app within our systems.
+
+Also you need to obtain a valid user access token from pager.
+
+<aside class="notice">
+Optionally you can create a PKITTheme so you can customize the colors of the sdk so they match your application.
+</aside>
 
 
 ```objective_c
@@ -76,7 +84,7 @@ config.appKey = "<YOUR_CLIENT_ID>"
 config.userToken = "<USER_TOKEN>"
 ```
 
-## Theme
+## Create a theme
 
 ```objective_c
 #import <PagerKit/PagerKit.h>

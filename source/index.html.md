@@ -99,8 +99,32 @@ config.theme = theme
 # Session
 
 # Encounter Context
+
 ## Fetch
+
+```objective_c
+[PKITClient encounterContextForConsumerSession:self.consumerSession completion:^(PKITEncounterContext *context, NSError *error) {
+  if (!error) {
+    [context addListener:self];
+  }
+}];
+```
+
+```swift
+PKITClient.encounterContext(for: session, completion: { (context, error) in
+  if let context = context, error == nil {
+    context.addListener(self)
+  }
+})
+```
+
 ## Create
+
+```objective_c
+```
+
+```swift
+```
 
 # Provided Services
 

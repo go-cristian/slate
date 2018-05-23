@@ -136,8 +136,6 @@ If you want your application to be able to receive notifications you need to con
 There are two ways to set up the push notification token on PagerKit.
 
 ```objective_c
-#import <PagerKit/PagerKit.h>
-
 PKITClientConfig *config = [[PKITClientConfig alloc] init];
 config.pushNotificationToken = "<PUSH_TOKEN>"
 config.appKey = "<YOUR_CLIENT_ID>"
@@ -329,11 +327,76 @@ PKITClient.createEncounter(for: consumerSession, triageContext: nil, address: ad
 # Controllers
 
 ## Encounter
+
+```objective_c
+PKITNavigationController *controller = [PKITClient encounterControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.encounterController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Payments
+
+```objective_c
+PKITNavigationController *controller = [PKITClient paymentsViewControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.paymentsViewController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Insurances
+
+```objective_c
+PKITNavigationController *controller = [PKITClient insurancesViewControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.insurancesViewController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Promotions
+
+```objective_c
+PKITNavigationController *controller = [PKITClient promotionsViewControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.promotionsViewController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Appointments
+
+```objective_c
+PKITNavigationController *controller = [PKITClient appointmentsViewControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.appointmentsViewController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
+
 ## Encounter History
+
+```objective_c
+PKITNavigationController *controller = [PKITClient encounterHistoryViewControllerForConsumerSession:consumerSession encounterContext:context];
+[self presentViewController:controller animated:YES completion:nil];
+```
+
+```swift
+let viewController = PKITClient.encounterHistoryViewController(for: consumerSession, encounterContext: context)
+self.present(viewController, animated: true)
+```
 
 <!-- ---
 title: API Reference

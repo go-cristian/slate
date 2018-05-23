@@ -22,6 +22,7 @@ Welcome to Pager's iOS SDK. This library will help you use our telemedicine syst
 We recommend using either [CocoaPods](https://github.com/CocoaPods/CocoaPods) to integrate the Pager SDK with your project.
 
 ### CocoaPods
+
 Add the dependency into your podfile
 
 ```ruby
@@ -37,10 +38,10 @@ target 'YourTarget' do
 
   pod 'PagerKit'
 end
-
 ```
 
 ## Framework
+
 Download the PagerKit.framework,
 add it to embedded binaries and linked frameworks and libraries in the general tab of your app target.
 
@@ -67,16 +68,12 @@ Optionally you can create a PKITTheme so you can customize the colors of the sdk
 </aside>
 
 ```objective_c
-#import <PagerKit/PagerKit.h>
-
 PKITClientConfig *config = [[PKITClientConfig alloc] init];
 config.appKey = "<YOUR_CLIENT_ID>"
 config.userToken = "<USER_TOKEN>"
 ```
 
 ```swift
-import PagerKit
-
 let config = PKITClientConfig()
 config.appKey = "<YOUR_CLIENT_ID>"
 config.userToken = "<USER_TOKEN>"
@@ -85,16 +82,12 @@ config.userToken = "<USER_TOKEN>"
 ## Create a theme
 
 ```objective_c
-#import <PagerKit/PagerKit.h>
-
 PKITTheme *theme = [[PKITTheme alloc] init];
 theme.primaryColor = UIColor.redColor;
 config.theme = theme;
 ```
 
 ```swift
-import PagerKit
-
 let theme = PKITTheme()
 theme.primaryColor = UIColor.red
 config.theme = theme
@@ -103,7 +96,6 @@ config.theme = theme
 ## Initialization
 
 ```objective_c
-__weak typeof (self) weakSelf = self;
 [PKITClient setupWithConfiguration:config completion:^(PKITConsumerSession *session, NSError *error) {
   if (!error) {
     session.delegate = self;
@@ -148,15 +140,50 @@ PKITClient.encounterContext(for: session, completion: { (context, error) in
 ## Create
 
 ```objective_c
-[PKITClient createEncounterForConsumerSession:consumerSession
-                                triageContext:triageContext
+PKITEncounterAddressLocation * location = [[PKITEncounterAddressLocation alloc] init];
+location.latitude = @"40.7245217";
+location.longitude = @"-73.9971564";
+
+PKITEncounterAddress *address = [[PKITEncounterAddress alloc] init];
+address.street = @"Broadway";
+address.number = @"625";
+address.location = location;
+address.state = @"NY";
+address.city = @"New York";
+address.country = @"United States";
+address.subLocality = @"Manhattan";
+
+[PKITClient createEncounterForConsumerSession:self.consumerSession
+                                triageContext:nil
                                       address:address
                                    completion:^(PKITEncounterContext *context, NSError *error) {
-
+  if (error != nil) {
+    PKITNavigationController *controller = [PKITClient encounterControllerForConsumerSession:consumerSession encounterContext:context];
+    [self presentViewController:controller animated:YES completion:nil];
+  }
 }];
 ```
 
 ```swift
+let location = PKITEncounterAddressLocation()
+location.latitude = "40.7245217"
+location.longitude = "-73.9971564"
+
+let address = PKITEncounterAddress()
+address.street = "Broadway"
+address.number = "625"
+address.location = location
+address.state = "NY"
+address.city = "New York"
+address.country = "United States"
+address.subLocality = "Manhattan"
+
+PKITClient.createEncounter(for: consumerSession, triageContext: nil, address: address) { [unowned self] (context, error) in
+  if let context = context, error == nil {
+    let viewController = PKITClient.encounterController(for: consumerSession, encounterContext: context)
+    self.present(viewController, animated: true)
+  }
+})
 ```
 
 # Provided Services

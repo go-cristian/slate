@@ -131,7 +131,9 @@ Also you need to set a delegate to that session so you can respond to the differ
 
 ## Notifications
 
-If you want your application to be able to receive notifications you need to contact the pager team <code> ios@pager.com </code> and in the app you need to set it up in the init of the sdk.
+If you want your application to be able to receive notifications you need to contact the pager team <code> ios@pager.com </code>
+
+There are two ways to set up the push notification token on PagerKit.
 
 ```objective_c
 #import <PagerKit/PagerKit.h>
@@ -149,10 +151,9 @@ let config = PKITClientConfig()
 config.pushNotificationToken = "<PUSH_TOKEN>"
 config.appKey = "<YOUR_CLIENT_ID>"
 config.userToken = "<USER_TOKEN>"
-
 ```
 
-If you want to set up the token later you can call the <code> updatePushNotificationToken </code> method of the <code> PKITClient </code> object.
+> If you want to set up the token later you can call the <code> updatePushNotificationToken </code> method of the <code> PKITClient </code> object.
 
 ```objective_c
 [PKITClient updatePushNotificationToken:<TOKEN>
@@ -214,7 +215,8 @@ It also contains an array of <code> PKITProvidedService </code> that are used to
 
 A PKITProvidedService represents the intent of an _Encounter_. Normally you should display to the user a list of those services so they can select that intent.
 
-![linked framework](/images/home.png)
+<img src="/images/home.png" class="center" alt="drawing" style="width: 350px;"/>
+
 
 
 # Encounter Context

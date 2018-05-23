@@ -41,8 +41,8 @@ end
 ```
 
 ## Framework
-Download the PagerKit.framework
-Add it to embedded binaries and linked frameworks and libraries in the general tab of your app target.
+Download the PagerKit.framework,
+add it to embedded binaries and linked frameworks and libraries in the general tab of your app target.
 
 ![linked framework](/images/linked_frameworks.png)
 

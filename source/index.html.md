@@ -86,6 +86,13 @@ config.userToken = "<USER_TOKEN>"
 
 ## Create a theme
 
+If you want PagerKit to match the style of your application, you can create a <code>PKITTheme</code> when you init the sdk.
+
+primaryColor is used to main buttons and some titles. It is the predominant color of the actions.
+
+![linked framework](/images/theme1.png)
+
+
 ```objective_c
 #import <PagerKit/PagerKit.h>
 
@@ -103,6 +110,49 @@ config.theme = theme
 ```
 
 ## Notifications
+
+If you want your application to be able to receive notifications you need to contact the pager team <code> ios@pager.com </code> and in the app you need to set it up in the init of the sdk.
+
+```objective_c
+#import <PagerKit/PagerKit.h>
+
+PKITClientConfig *config = [[PKITClientConfig alloc] init];
+config.pushNotificationToken = "<PUSH_TOKEN>"
+config.appKey = "<YOUR_CLIENT_ID>"
+config.userToken = "<USER_TOKEN>"
+```
+
+```swift
+import PagerKit
+
+let config = PKITClientConfig()
+config.pushNotificationToken = "<PUSH_TOKEN>"
+config.appKey = "<YOUR_CLIENT_ID>"
+config.userToken = "<USER_TOKEN>"
+
+```
+
+If you want to set up the token later you can call the <code> updatePushNotificationToken </code> method of the <code> PKITClient </code> object.
+
+```objective_c
+[PKITClient updatePushNotificationToken:<TOKEN>
+                     forConsumerSession:<CONSUMER_SESSION>
+                             completion:^(PKITConsumerSession *session, NSError *error) {
+    //Handle error here
+}];
+
+```
+
+```swift
+
+PKITClient.updatePushNotificationToken("token", for: "session") {
+   (consumerSession: PKITConsumerSession, error : Error?) in
+    //Handle error here
+}
+
+
+```
+
 
 # Session
 

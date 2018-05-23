@@ -54,11 +54,9 @@ Add a build phase script that strips the unsupported architectures (x86_64, i386
 Use the shell script <code>trim.sh</code> that’s included in the SDK software distribution package along with the instructions documented under the App Store Deployment section of the Consumer iOS SDK guide to remove the unsupported architectures.
 </aside>
 
-
 # Setup
 
 ## Config
-
 
 ```objective_c
 #import <PagerKit/PagerKit.h>
@@ -94,6 +92,27 @@ theme.primaryColor = UIColor.red
 config.theme = theme
 ```
 
+## Initialization
+
+```objective_c
+__weak typeof (self) weakSelf = self;
+[PKITClient setupWithConfiguration:config completion:^(PKITConsumerSession *session, NSError *error) {
+  if (!error) {
+    session.delegate = self;
+    self.consumerSession = session;
+  }
+}];
+```
+
+```swift
+PKITClient.setup(withConfiguration: config) { [unowned self] (session, error) in
+  if let session = session, error == nil {
+    session?.delegate = self
+    self.consumerSession = session
+  }
+}
+```
+
 ## Notifications
 
 # Session
@@ -121,6 +140,12 @@ PKITClient.encounterContext(for: session, completion: { (context, error) in
 ## Create
 
 ```objective_c
+[PKITClient createEncounterForConsumerSession:consumerSession
+                                triageContext:triageContext
+                                      address:address
+                                   completion:^(PKITEncounterContext *context, NSError *error) {
+
+}];
 ```
 
 ```swift
